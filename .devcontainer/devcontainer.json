@@ -1,0 +1,46 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	//"name": "devcontainer",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"dockerComposeFile": "../docker-compose.yaml",
+	"runServices": [
+		"dev"
+	],
+	"service": "dev",
+	"workspaceFolder": "/overlay_ws",
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "uname -a",
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				//"ms-iot.vscode-ros",
+				"ms-python.python",
+				"ms-vscode.cpptools",
+				"ms-azuretools.vscode-docker",
+				"dotjoshjohnson.xml",
+				"redhat.vscode-yaml",
+				"smilerobotics.urdf",
+				"streetsidesoftware.code-spell-checker",
+				"twxs.cmake",
+				"zachflower.uncrustify"
+			],
+			"settings": {
+				"python.autoComplete.extraPaths": [
+					"/overlay/devel/lib/python3/dist-packages",
+					"/opt/ros/noetic/lib/python3/dist-packages"
+				],
+				"python.analysis.extraPaths": [
+					"/opt/ros/noetic/lib/python3/dist-packages/"
+				]
+			}
+		}
+	}
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}

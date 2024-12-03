@@ -1,0 +1,66 @@
+version: "3.9"
+services:
+  # Base image containing dependencies.
+  base:
+    image: ${PROJECT_NAME}:base
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        ROS_DISTRO: noetic
+      target: base
+    # Interactive shell
+    stdin_open: true
+    tty: true
+    # Networking and IPC for ROS 2
+    network_mode: host
+    ipc: host
+    # Needed to display graphical applications
+    privileged: True
+    environment:
+      # Allows graphical programs in the container.
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    volumes:
+      # Allows graphical programs in the container.
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
+
+  # Overlay image containing the example source code.
+  overlay:
+    extends: base
+    image: ${PROJECT_NAME}:overlay
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: overlay
+
+  # Developer container
+  dev:
+    extends: overlay 
+    image: ${PROJECT_NAME}:dev
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: dev
+      args:
+        - UID=${UID:-1000}
+        - GID=${UID:-1000}
+        - USERNAME=${USERNAME:-devuser}
+    #environment:
+      #- "ROS_IP=xxx.xx.xx.xx"
+      #- "ROS_MASTER_URI=http://xxx.xx.xx.xx:11311"
+
+    volumes:
+      # Mount the source code
+      - ./bags:/overlay_ws/bags:r
+      - ./orb_slam3_ros/:/overlay_ws/src/orb_slam3_ros:rw
+
+    user: ${USERNAME:-devuser}
+    command: bash -c "sudo chmod 777 -R /overlay_ws/ && exec sleep infinity"
+  
+  #viz:
+    #extends: dev
+    #command: rviz -d /overlay_ws/src/some_folder/rviz.rviz  
+  
