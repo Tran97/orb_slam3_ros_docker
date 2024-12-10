@@ -5,7 +5,7 @@ ARG ROS_DISTRO=noetic
 # Base Image for #
 ###############################################################################################
 
-FROM osrf/ros:${ROS_DISTRO}-desktop-full as base
+FROM osrf/ros:${ROS_DISTRO}-desktop-full AS base
 ENV ROS_DISTRO=${ROS_DISTRO}
 SHELL ["/bin/bash", "-c"]
 
@@ -44,7 +44,7 @@ RUN vcs import --recursive < dependencies.repos
 WORKDIR /underlay_ws/src/Pangolin
 RUN ./scripts/install_prerequisites.sh recommended || true
 RUN cmake -B build 
-RUN cmake --build build -- -j
+RUN cmake --build build
 RUN cmake --install build
 
 RUN source /opt/ros/noetic/setup.bash \
@@ -54,7 +54,7 @@ RUN source /opt/ros/noetic/setup.bash \
 RUN cd /underlay_ws \
   && source /opt/ros/noetic/setup.bash \
   && rosdep install -y --from-paths src --ignore-src --skip-keys="catch2" \
-  && catkin build -j
+  && catkin build --verbose
 
 # Remove display warnings
 RUN mkdir /tmp/runtime-root
@@ -83,11 +83,9 @@ RUN source /opt/ros/noetic/setup.bash \
 COPY ../orb_slam3_ros/ /overlay_ws/src/orb_slam3_ros/
 #COPY ./some_other_folder/ /overlay_ws/src/some_other_folder/
 WORKDIR /overlay_ws
-#RUN source /opt/ros/noetic/setup.bash \
-#&& catkin build -j
+#RUN cd ./src && git clone https://github.com/thien94/orb_slam3_ros.git
 RUN source /opt/ros/noetic/setup.bash \
-  && rosdep install -y --from-paths src --ignore-src --skip-keys="catch2" \
-  && catkin build -j
+  && catkin build
 
 # Set up the work directory and entrypoint
 COPY ./docker/entrypoint.sh /
@@ -97,7 +95,7 @@ ENTRYPOINT [ "/entrypoint.sh" ]
 ################################################################################################
 ## Development Image #
 ################################################################################################
-FROM overlay as dev
+FROM overlay AS dev
 
 # Dev container arguments
 ARG USERNAME=devuser
