@@ -7,8 +7,10 @@ ENDIF()
 
 MESSAGE("Build type: " ${CMAKE_BUILD_TYPE})
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wall   -O3")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall   -O3")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wall   -O3")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall   -O3")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}     -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}    -O3")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=native")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -march=native")
 
@@ -27,6 +29,7 @@ elseif(COMPILER_SUPPORTS_CXX0X)
 else()
   message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
+
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
@@ -159,52 +162,52 @@ target_link_libraries(${PROJECT_NAME}
   ${OpenCV_LIBS}
   ${EIGEN3_LIBS}
   ${Pangolin_LIBRARIES}
-  ${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/DBoW2/lib/libDBoW2.so
+  ${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/DBoW2/lib/libDBoW2.so    
   ${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/g2o/lib/libg2o.so
   -lboost_system
   -lboost_serialization
   -lcrypto
 )
 
-## ROS node
-add_executable(ros_mono
-  src/ros_mono.cc
-  src/common.cc
-)
-target_link_libraries(ros_mono
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
+### ROS node
+#add_executable(ros_mono
+  #src/ros_mono.cc
+  #src/common.cc
+#)
+#target_link_libraries(ros_mono
+  #${PROJECT_NAME}
+  #${catkin_LIBRARIES}
+#)
 
-## ROS node
-add_executable(ros_mono_inertial 
-  src/ros_mono_inertial.cc
-  src/common.cc
-)
-target_link_libraries(ros_mono_inertial 
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
+### ROS node
+#add_executable(ros_mono_inertial 
+  #src/ros_mono_inertial.cc
+  #src/common.cc
+#)
+#target_link_libraries(ros_mono_inertial 
+  #${PROJECT_NAME}
+  #${catkin_LIBRARIES}
+#)
 
-## ROS node
-add_executable(ros_stereo 
-  src/ros_stereo.cc
-  src/common.cc
-)
-target_link_libraries(ros_stereo
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
+### ROS node
+#add_executable(ros_stereo 
+  #src/ros_stereo.cc
+  #src/common.cc
+#)
+#target_link_libraries(ros_stereo
+  #${PROJECT_NAME}
+  #${catkin_LIBRARIES}
+#)
 
-## ROS node
-add_executable(ros_stereo_inertial
-  src/ros_stereo_inertial.cc
-  src/common.cc
-)
-target_link_libraries(ros_stereo_inertial 
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
+### ROS node
+#add_executable(ros_stereo_inertial
+  #src/ros_stereo_inertial.cc
+  #src/common.cc
+#)
+#target_link_libraries(ros_stereo_inertial 
+  #${PROJECT_NAME}
+  #${catkin_LIBRARIES}
+#)
 
 ## ROS node
 add_executable(ros_rgbd
@@ -216,12 +219,18 @@ target_link_libraries(ros_rgbd
   ${catkin_LIBRARIES}
 )
 
-## ROS node
-add_executable(ros_rgbd_inertial
-  src/ros_rgbd_inertial.cc
-  src/common.cc
-)
-target_link_libraries(ros_rgbd_inertial
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
+### ROS node
+#add_executable(ros_rgbd_inertial
+  #src/ros_rgbd_inertial.cc
+  #src/common.cc
+#)
+#target_link_libraries(ros_rgbd_inertial
+  #${PROJECT_NAME}
+  #${catkin_LIBRARIES}
+#)
+
+# Install the maps directory
+install(
+  DIRECTORY maps/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/maps
 )
