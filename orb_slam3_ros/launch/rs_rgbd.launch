@@ -10,7 +10,7 @@
         <!-- Parameters for original ORB-SLAM3 -->
         <param name="voc_file" type="string" value="$(find orb_slam3_ros)/orb_slam3/Vocabulary/ORBvoc.txt.bin"/>
         <param name="settings_file" type="string" value="$(find orb_slam3_ros)/config/RGB-D/RealSense_D455.yaml"/>
-        <param name="load_atlas_from_file" type="string" value="$(find_orb_slam3_ros)/maps/tum_rosservice"/>
+        <param name="load_atlas_from_file" type="string" value="$(find orb_slam3_ros)/maps/tum_rosservice.osa"/>
         <!-- Parameters for ROS -->
         <param name="world_frame_id" type="string" value="world" />
         <param name="cam_frame_id" type="string" value="camera" />
