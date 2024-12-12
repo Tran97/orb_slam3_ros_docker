@@ -85,6 +85,7 @@ COPY ../orb_slam3_ros/ /overlay_ws/src/orb_slam3_ros/
 WORKDIR /overlay_ws
 #RUN cd ./src && git clone https://github.com/thien94/orb_slam3_ros.git
 RUN source /opt/ros/noetic/setup.bash \
+  source /underlay_ws/devel/setup.bash \
   && catkin build
 
 # Set up the work directory and entrypoint
