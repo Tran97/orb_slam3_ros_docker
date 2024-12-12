@@ -1,19 +1,6 @@
 %YAML:1.0
 
 #--------------------------------------------------------------------------------------------
-# System config
-#--------------------------------------------------------------------------------------------
-
-# When the variables are commented, the system doesn't load a previous session or not store the current one
-
-# If the LoadFile doesn't exist, the system give a message and create a new Atlas from scratch
-#System.LoadAtlasFromFile: "test1234"
-
-# The store file is created from the current session, if a file with the same name exists it is deleted
-#System.SaveAtlasToFile: "test1234"
-
-
-#--------------------------------------------------------------------------------------------
 # Camera Parameters. Adjusted to provided intrinsics!
 #--------------------------------------------------------------------------------------------
 File.version: "1.0"
@@ -21,21 +8,21 @@ File.version: "1.0"
 Camera.type: "PinHole"
 
 # Right Camera calibration and distortion parameters (OpenCV)
-Camera1.fx: 636.3713989257812
-Camera1.fy: 635.6685791015625
-Camera1.cx: 653.646484375
-Camera1.cy: 358.31268310546875
+Camera1.fx: 446.8011844532658
+Camera1.fy: 446.8011844532658
+Camera1.cx: 424.5
+Camera1.cy: 240.5
 
 # distortion parameters (from D array)
-Camera1.k1: -0.055929072201251984
-Camera1.k2: 0.07121771574020386
-Camera1.p1: -0.00017399626085534692
-Camera1.p2: -0.00021701835794374347
-Camera1.k3: -0.023059910163283348
+Camera1.k1: 1e-08
+Camera1.k2: 1e-08
+Camera1.p1: 1e-08
+Camera1.p2: 1e-08
+Camera1.k3: 1e-08
 
 # Camera resolution
-Camera.width: 1280
-Camera.height: 720
+Camera.width: 848
+Camera.height: 480
 
 # Camera frames per second 
 Camera.fps: 30
@@ -48,7 +35,7 @@ Stereo.ThDepth: 40.0
 Stereo.b: 0.0745
 
 # Depth map values factor
-RGBD.DepthMapFactor: 1000.0
+RGBD.DepthMapFactor: 1.0
 
 #--------------------------------------------------------------------------------------------
 # ORB Parameters
