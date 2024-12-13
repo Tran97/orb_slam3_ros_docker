@@ -1,5 +1,6 @@
 <launch>
-    <param name="use_sim_time" value="false" />
+    <!-- Use simulation time for all nodes -->
+    <param name="use_sim_time" value="true" />
 
     <!-- Main node -->
     <node name="orb_slam3" pkg="orb_slam3_ros" type="ros_rgbd" output="screen">
@@ -10,20 +11,26 @@
         <!-- Parameters for original ORB-SLAM3 -->
         <param name="voc_file" type="string" value="$(find orb_slam3_ros)/orb_slam3/Vocabulary/ORBvoc.txt.bin"/>
         <param name="settings_file" type="string" value="$(find orb_slam3_ros)/config/RGB-D/TUM1.yaml"/>
-        <param name="load_atlas_from_file" type="string" value="$(find orb_slam3_ros)/maps/tum_rosservice.osa"/>
+        <!-- <param name="load_atlas_from_file" type="string" value="$(find orb_slam3_ros)/maps/tum_rosservice.osa"/> -->
 
         <!-- Parameters for ROS -->
-        <param name="world_frame_id" type="string" value="world" />
+        <param name="world_frame_id" type="string" value="world_orb" />
         <param name="cam_frame_id" type="string" value="camera" />
         <param name="enable_pangolin" type="bool" value="false" />
+
     </node>
+
+    <!-- static TF between world_orb and world - from  -->
+    <node pkg="tf" type="static_transform_publisher" name="world_orb_to_world"
+        args="0 0 0 -0.5 -0.5 -0.5 0.5 /world /world_orb 100" />
+
 
     <!-- Visualization -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find orb_slam3_ros)/config/orb_slam3_rgbd.rviz" output="screen" />
 
     <!-- Trajectory path -->
     <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_server_orb_slam3" output="screen" ns="orb_slam3_ros">
-        <param name="/target_frame_name" value="/world" />
+        <param name="/target_frame_name" value="/world_orb" />
         <param name="/source_frame_name" value="/camera" />
         <param name="/trajectory_update_rate" value="20.0" />
         <param name="/trajectory_publish_rate" value="20.0" />
