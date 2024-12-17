@@ -234,3 +234,7 @@ install(
   DIRECTORY maps/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/maps
 )
+
+# dynamic_transform_broadcaster_node
+add_executable(dynamic_transform_broadcaster_node src/dynamic_transform_broadcaster_node.cpp)
+target_link_libraries(dynamic_transform_broadcaster_node ${catkin_LIBRARIES})
