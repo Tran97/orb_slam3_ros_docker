@@ -94,6 +94,13 @@ rosservice call /orb_slam3/save_map [file_name]
 - Move the saved map in `~/.ros` to this maps folder in the ros package.
 - Specify the name of the map in the launch file as in the example `rs_rgbd.launch`.
 
+#### Save Occupancy grid
+
+TODO: Mention to run the pointcloud to occupancy map.
+TODO: Write how to save the occupancy map
+
+TODO: Mention dynamic_transform_broadcaster_node and the transforms
+
 
 ## 4. ROS topics, params and services
 ### Subscribed topics
