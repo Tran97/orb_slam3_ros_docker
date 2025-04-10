@@ -86,7 +86,7 @@ WORKDIR /overlay_ws
 #RUN cd ./src && git clone https://github.com/thien94/orb_slam3_ros.git
 RUN source /opt/ros/noetic/setup.bash \
   source /underlay_ws/devel/setup.bash \
-  && catkin build
+  && catkin build --verbose
 
 # Set up the work directory and entrypoint
 COPY ./docker/entrypoint.sh /

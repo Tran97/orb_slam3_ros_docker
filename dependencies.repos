@@ -3,7 +3,7 @@ repositories:
   Pangolin:
     type: git
     url: https://github.com/stevenlovegrove/Pangolin.git
-    version: master
+    version: v0.9.2
 
   #orb_slam3_ros:
     #type: git

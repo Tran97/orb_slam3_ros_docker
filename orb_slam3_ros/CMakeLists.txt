@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
-project(orb_slam3_ros)
+
+# Set CMP0048 policy to NEW to allow VERSION specification
+cmake_policy(SET CMP0048 NEW)
+
+# Specify the project name and version
+project(orb_slam3_ros VERSION 1.0.0)
 
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE Release)
@@ -72,9 +77,14 @@ generate_messages(
   std_msgs
 )
 
+# catkin_package (
+#   CATKIN_DEPENDS roscpp rospy std_msgs cv_bridge image_transport tf sensor_msgs dynamic_reconfigure message_runtime
+#   LIBRARIES {PROJECT_NAME} libDBoW2 libg2o
+# )
+
 catkin_package (
   CATKIN_DEPENDS roscpp rospy std_msgs cv_bridge image_transport tf sensor_msgs dynamic_reconfigure message_runtime
-  LIBRARIES {PROJECT_NAME} libDBoW2 libg2o
+  LIBRARIES ${PROJECT_NAME} DBoW2 g2o
 )
 
 ## Specify additional locations of header files
@@ -92,8 +102,10 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-include(${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/DBoW2/CMakeLists.txt)
-include(${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/g2o/CMakeLists.txt)
+# include(${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/DBoW2/CMakeLists.txt)
+# include(${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/g2o/CMakeLists.txt)
+add_subdirectory(${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/DBoW2)
+add_subdirectory(${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/g2o)
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/orb_slam3/lib)
 
@@ -158,16 +170,29 @@ add_library(${PROJECT_NAME} SHARED
   orb_slam3/include/Settings.h
 )
 
+# target_link_libraries(${PROJECT_NAME}
+#   ${OpenCV_LIBS}
+#   ${EIGEN3_LIBS}
+#   ${Pangolin_LIBRARIES}
+#   ${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/DBoW2/lib/libDBoW2.so    
+#   ${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/g2o/lib/libg2o.so
+#   -lboost_system
+#   -lboost_serialization
+#   -lcrypto
+# )
+
 target_link_libraries(${PROJECT_NAME}
   ${OpenCV_LIBS}
   ${EIGEN3_LIBS}
   ${Pangolin_LIBRARIES}
-  ${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/DBoW2/lib/libDBoW2.so    
-  ${PROJECT_SOURCE_DIR}/orb_slam3/Thirdparty/g2o/lib/libg2o.so
+  DBoW2
+  g2o
   -lboost_system
   -lboost_serialization
   -lcrypto
 )
+
+
 
 ### ROS node
 #add_executable(ros_mono

@@ -76,7 +76,7 @@ Visualization Manager:
           Value: true
         camera_imu_optical_frame:
           Value: true
-        camera_link:
+        front_realsense:
           Value: true
         imu:
           Value: true
@@ -98,7 +98,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /camera/color/image_raw
+      Image Topic: /realsense/color/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
