@@ -76,7 +76,7 @@ Visualization Manager:
           Value: true
         camera_imu_optical_frame:
           Value: true
-        front_realsense:
+        camera_link:
           Value: true
         imu:
           Value: true

@@ -22,9 +22,9 @@ int main(int argc, char** argv) {
             geometry_msgs::TransformStamped world_to_camera;
             world_to_camera = tfBuffer.lookupTransform("world", "camera", ros::Time(0));
 
-            // Get the transform from /base_link to /front_realsense (from the Husky Robot URDF)
+            // Get the transform from /base_link to /camera_link (from the Husky Robot URDF)
             geometry_msgs::TransformStamped base_to_camera;
-            base_to_camera = tfBuffer.lookupTransform("base_link", "front_realsense", ros::Time(0));
+            base_to_camera = tfBuffer.lookupTransform("base_link", "camera_link", ros::Time(0));
 
             // Get the orb transform
             geometry_msgs::TransformStamped orb_transform;

@@ -12,10 +12,14 @@
         <param name="settings_file" type="string" value="$(find orb_slam3_ros)/config/RGB-D/RealSense_D455.yaml"/>
         <param name="load_atlas_from_file" type="string" value="$(find orb_slam3_ros)/maps/tum_rosservice.osa"/>
         <!-- Parameters for ROS -->
-        <param name="world_frame_id" type="string" value="world" />
+        <param name="world_frame_id" type="string" value="world_orb" />
         <param name="cam_frame_id" type="string" value="camera" />
         <param name="enable_pangolin" type="bool" value="true" />
     </node>
+
+    <!-- static TF between world_orb (camera frame orientation) to world (XYZ orientation)  -->
+    <node pkg="tf" type="static_transform_publisher" name="world_orb_to_world"
+        args="0 0 0.75 -0.7071068, 0, 0, 0.7071068 /world /world_orb 100" />
 
     <!-- Visualization -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find orb_slam3_ros)/config/orb_slam3_rgbd.rviz" output="screen" />
@@ -27,4 +31,15 @@
         <param name="/trajectory_update_rate" value="20.0" />
         <param name="/trajectory_publish_rate" value="20.0" />
     </node>
+
+    <!-- Run the dynamic transform broadcaster -->
+    <node name="dynamic_transform_broadcaster" pkg="orb_slam3_ros" type="dynamic_transform_broadcaster_node" output="screen" />
+
+    <!-- Static tf between odom and world as well as odom and map -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_to_world"
+      args="0 0 0 0 0 0 odom world" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom"
+      args="0 0 0 0 0 0 map odom" />
+
 </launch>
